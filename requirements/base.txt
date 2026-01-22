@@ -12,3 +12,4 @@ wagtail-2fa==1.7.1
 django-otp==1.6.3
 wagtail-seo==3.1.1
 gunicorn>=21.0
+allauth==65.14.0
