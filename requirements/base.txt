@@ -13,3 +13,4 @@ django-otp==1.6.3
 wagtail-seo==3.1.1
 gunicorn>=21.0
 django-allauth==65.14.0
+PyJWT>=2.8,<3
