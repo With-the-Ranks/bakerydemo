@@ -43,11 +43,13 @@ INSTALLED_APPS = [
     "bakerydemo.locations",
     "bakerydemo.recipes",
     "bakerydemo.search",
+    "wagtail_ai",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
     "wagtail.snippets",
     "wagtail.documents",
+    "bakerydemo.images",
     "wagtail.images",
     "wagtail.search",
     "wagtail.admin",
@@ -59,6 +61,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.table_block",
     "wagtail.contrib.typed_table_block",
     "wagtail.contrib.search_promotions",
+    "wagtailseo",
     "wagtail.contrib.settings",
     "wagtail.contrib.simple_translation",
     "wagtail.contrib.styleguide",
@@ -67,6 +70,10 @@ INSTALLED_APPS = [
     "modelcluster",
     "taggit",
     "wagtailfontawesomesvg",
+    "wagtail_ab_testing",
+    "wagtail_2fa",
+    "django_otp",
+    "django_otp.plugins.otp_totp",
     # Uncomment to enable django-debug-toolbar
     # "debug_toolbar",
     "django_extensions",
@@ -77,6 +84,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
 
 MIDDLEWARE = [
@@ -87,10 +99,24 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django_otp.middleware.OTPMiddleware",
+    "wagtail_2fa.middleware.VerifyUserMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+LOGIN_REDIRECT_URL = "/admin/"
+ACCOUNT_LOGOUT_REDIRECT_URL = "/admin/login/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 ROOT_URLCONF = "bakerydemo.urls"
@@ -109,6 +135,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
+                "django.template.context_processors.i18n",
             ],
         },
     },
@@ -253,3 +280,41 @@ if "CSP_DEFAULT_SRC" in os.environ:
         CSP_FRAME_SRC = os.environ.get("CSP_FRAME_SRC").split(",")
     if "CSP_REPORT_URI" in os.environ:
         CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI")
+
+WAGTAIL_AI = {
+    "PROVIDERS": {
+        "default": {
+            "provider": "openai",
+            "model": "gpt-4.1-mini",
+        },
+        "vision": {
+            "provider": "mistral",
+            "model": "mistral-small-3.2-24b-instruct-2506",
+        },
+    },
+    # For legacy rich text editor integration
+    "BACKENDS": {
+        "gpt4": {
+            "CLASS": "wagtail_ai.ai.openai.OpenAIBackend",
+            "CONFIG": {
+                "MODEL_ID": "gpt-4",
+            },
+        },
+        "default": {
+            "CLASS": "wagtail_ai.ai.llm.LLMBackend",
+            "CONFIG": {
+                # Model ID recognizable by the "LLM" library.
+                "MODEL_ID": "gpt-3.5-turbo",
+            },
+        }
+    },
+    "TEXT_COMPLETION_BACKEND": "gpt4",
+    "IMAGE_DESCRIPTION_PROVIDER": "vision",  # Use vision model for images
+}
+
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+WAGTAILIMAGES_IMAGE_FORM_BASE = "wagtail_ai.forms.DescribeImageForm"
+SOCIALACCOUNT_ADAPTER = "bakerydemo.adapters.AdminGoogleAdapter"
+SOCIALACCOUNT_AUTO_SIGNUP = True
+WAGTAILIMAGES_IMAGE_MODEL = "images.CustomImage"
+WAGTAILIMAGES_RENDITION_MODEL = "images.CustomRendition"

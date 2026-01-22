@@ -6,8 +6,10 @@ from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.api import APIField
 from wagtail.fields import StreamField
+from wagtail.images import get_image_model_string
 from wagtail.models import DraftStateMixin, Orderable, Page, RevisionMixin
 from wagtail.search import index
+from wagtail_ai.panels import AIDescriptionFieldPanel, AITitleFieldPanel
 
 from bakerydemo.base.blocks import BaseStreamBlock
 
@@ -38,7 +40,7 @@ class Country(models.Model):
         verbose_name_plural = "countries of origin"
 
 
-class BreadIngredient(Orderable, DraftStateMixin, RevisionMixin, models.Model):
+class BreadIngredient(index.Indexed, Orderable, DraftStateMixin, RevisionMixin, models.Model):
     """
     A Django model to store a single ingredient.
     It is made accessible in the Wagtail admin interface through the BreadIngredientSnippetViewSet
@@ -66,6 +68,10 @@ class BreadIngredient(Orderable, DraftStateMixin, RevisionMixin, models.Model):
         APIField("name"),
     ]
 
+    search_fields = [
+        index.SearchField("name", partial_match=True)
+    ]
+
     def __str__(self):
         return self.name
 
@@ -75,7 +81,7 @@ class BreadIngredient(Orderable, DraftStateMixin, RevisionMixin, models.Model):
         ordering = ["sort_order", "name"]
 
 
-class BreadType(RevisionMixin, models.Model):
+class BreadType(index.Indexed, RevisionMixin, models.Model):
     """
     A Django model to define the bread type
     It is made accessible in the Wagtail admin interface through the BreadTypeSnippetViewSet
@@ -104,6 +110,10 @@ class BreadType(RevisionMixin, models.Model):
         APIField("title"),
     ]
 
+    search_fields = [
+        index.SearchField("title", partial_match=True)
+    ]
+
     def __str__(self):
         return self.title
 
@@ -119,7 +129,7 @@ class BreadPage(Page):
 
     introduction = models.TextField(help_text="Text to describe the page", blank=True)
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -151,7 +161,7 @@ class BreadPage(Page):
     ingredients = ParentalManyToManyField("BreadIngredient", blank=True)
 
     content_panels = Page.content_panels + [
-        FieldPanel("introduction"),
+        AIDescriptionFieldPanel("introduction"),
         FieldPanel("image"),
         FieldPanel("body"),
         FieldPanel("origin"),
@@ -200,7 +210,7 @@ class BreadsIndexPage(Page):
 
     introduction = models.TextField(help_text="Text to describe the page", blank=True)
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -209,7 +219,7 @@ class BreadsIndexPage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("introduction"),
+        AIDescriptionFieldPanel("introduction"),
         FieldPanel("image"),
     ]
 
@@ -219,6 +229,10 @@ class BreadsIndexPage(Page):
     api_fields = [
         APIField("introduction"),
         APIField("image"),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField("introduction", partial_match=True)
     ]
 
     # Returns a queryset of BreadPage objects that are live, that are direct

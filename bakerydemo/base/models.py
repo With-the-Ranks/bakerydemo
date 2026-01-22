@@ -21,7 +21,7 @@ from wagtail.contrib.settings.models import (
     register_setting,
 )
 from wagtail.fields import RichTextField, StreamField
-from wagtail.images.models import Image
+from wagtail.images import get_image_model, get_image_model_string
 from wagtail.models import (
     Collection,
     DraftStateMixin,
@@ -35,10 +35,13 @@ from wagtail.models import (
     WorkflowMixin,
 )
 from wagtail.search import index
+from wagtail_ai.panels import AITitleFieldPanel
+from wagtailseo.models import SeoMixin
 
 from .blocks import BaseStreamBlock
 
 # Allow filtering by collection
+Image = get_image_model()
 Image.api_fields = [APIField("collection")]
 
 
@@ -69,7 +72,7 @@ class Person(
     job_title = models.CharField("Job title", max_length=254)
 
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -226,7 +229,7 @@ class FooterText(
         verbose_name_plural = "footer text"
 
 
-class StandardPage(Page):
+class StandardPage(SeoMixin, Page):
     """
     A generic content page. On this demo site we use it for an about page but
     it could be used for any type of page content that only needs a title,
@@ -235,7 +238,7 @@ class StandardPage(Page):
 
     introduction = models.TextField(help_text="Text to describe the page", blank=True)
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -246,7 +249,7 @@ class StandardPage(Page):
         BaseStreamBlock(), verbose_name="Page body", blank=True, use_json_field=True
     )
     content_panels = Page.content_panels + [
-        FieldPanel("introduction"),
+        AITitleFieldPanel("introduction"),
         FieldPanel("body"),
         FieldPanel("image"),
     ]
@@ -256,6 +259,8 @@ class StandardPage(Page):
         APIField("image"),
         APIField("body"),
     ]
+
+    promote_panels = SeoMixin.seo_panels
 
 
 class HomePage(Page):
@@ -271,7 +276,7 @@ class HomePage(Page):
 
     # Hero section of HomePage
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -306,7 +311,7 @@ class HomePage(Page):
 
     # Promo section of the HomePage
     promo_image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -454,7 +459,7 @@ class GalleryPage(Page):
 
     introduction = models.TextField(help_text="Text to describe the page", blank=True)
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -474,7 +479,7 @@ class GalleryPage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("introduction"),
+        AITitleFieldPanel("introduction"),
         FieldPanel("body"),
         FieldPanel("image"),
         FieldPanel("collection"),
@@ -492,6 +497,16 @@ class GalleryPage(Page):
     ]
 
 
+class MediaReleasePage(Page):
+    """
+    This is a page to handle publishing media releases.
+    
+    :var at: Description
+    :var https: Description
+    :var https: Description
+    """
+
+
 class FormField(AbstractFormField):
     """
     Wagtailforms is a module to introduce simple forms on a Wagtail site. It
@@ -507,7 +522,7 @@ class FormField(AbstractFormField):
 
 class FormPage(AbstractEmailForm):
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

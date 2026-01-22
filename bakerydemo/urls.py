@@ -1,12 +1,15 @@
 import debug_toolbar
 from django.conf import settings
 from django.contrib import admin
+from django.views.generic import RedirectView
 from django.urls import include, path, re_path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
+from django.conf.urls.i18n import i18n_patterns
 from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail.images.views.serve import ServeView
+from wagtail_ab_testing import urls as ab_testing_urls
 
 from bakerydemo.search import views as search_views
 
@@ -14,6 +17,14 @@ from .api import api_router
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
+    # allauth endpoints
+    path("accounts/", include("allauth.urls")),
+
+    # force Wagtail admin login -> Google
+    path("admin/login/", RedirectView.as_view(
+        url="/accounts/google/login/?next=/admin/"
+    )),
+
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     re_path(
@@ -21,10 +32,10 @@ urlpatterns = [
         ServeView.as_view(),
         name="wagtailimages_serve",
     ),
-    path("search/", search_views.search, name="search"),
     path("sitemap.xml", sitemap),
     path("api/v2/", api_router.urls),
     path("__debug__/", include(debug_toolbar.urls)),
+    path("abtesting/", include(ab_testing_urls)),
 ]
 
 
@@ -50,6 +61,8 @@ if settings.DEBUG:
         path("test500/", TemplateView.as_view(template_name="500.html")),
     ]
 
-urlpatterns += [
+urlpatterns += i18n_patterns(
+    path("search/", search_views.search, name="search"),
     path("", include(wagtail_urls)),
-]
+    prefix_default_language=False,
+)

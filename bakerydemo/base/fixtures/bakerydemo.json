@@ -1636,9 +1636,9 @@
         ["add_document", "wagtaildocs", "document"],
         ["change_document", "wagtaildocs", "document"],
         ["delete_document", "wagtaildocs", "document"],
-        ["add_image", "wagtailimages", "image"],
-        ["change_image", "wagtailimages", "image"],
-        ["delete_image", "wagtailimages", "image"]
+        ["add_customimage", "images", "customimage"],
+        ["change_customimage", "images", "customimage"],
+        ["delete_customimage", "images", "customimage"]
       ]
     }
   },
@@ -1659,9 +1659,9 @@
         ["add_document", "wagtaildocs", "document"],
         ["change_document", "wagtaildocs", "document"],
         ["delete_document", "wagtaildocs", "document"],
-        ["add_image", "wagtailimages", "image"],
-        ["change_image", "wagtailimages", "image"],
-        ["delete_image", "wagtailimages", "image"]
+        ["add_customimage", "images", "customimage"],
+        ["change_customimage", "images", "customimage"],
+        ["delete_customimage", "images", "customimage"]
       ]
     }
   },
@@ -12117,7 +12117,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 8,
     "fields": {
       "collection": 3,
@@ -12137,7 +12137,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 9,
     "fields": {
       "collection": 2,
@@ -12157,7 +12157,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 10,
     "fields": {
       "collection": 2,
@@ -12177,7 +12177,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 11,
     "fields": {
       "collection": 2,
@@ -12197,7 +12197,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 12,
     "fields": {
       "collection": 2,
@@ -12217,7 +12217,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 14,
     "fields": {
       "collection": 2,
@@ -12237,7 +12237,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 15,
     "fields": {
       "collection": 2,
@@ -12257,7 +12257,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 21,
     "fields": {
       "collection": 2,
@@ -12277,7 +12277,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 22,
     "fields": {
       "collection": 2,
@@ -12297,7 +12297,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 23,
     "fields": {
       "collection": 2,
@@ -12317,7 +12317,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 24,
     "fields": {
       "collection": 2,
@@ -12337,7 +12337,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 25,
     "fields": {
       "collection": 2,
@@ -12357,7 +12357,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 26,
     "fields": {
       "collection": 4,
@@ -12377,7 +12377,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 28,
     "fields": {
       "collection": 4,
@@ -12397,7 +12397,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 29,
     "fields": {
       "collection": 4,
@@ -12417,7 +12417,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 30,
     "fields": {
       "collection": 4,
@@ -12437,7 +12437,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 31,
     "fields": {
       "collection": 4,
@@ -12457,7 +12457,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 32,
     "fields": {
       "collection": 4,
@@ -12477,7 +12477,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 33,
     "fields": {
       "collection": 4,
@@ -12497,7 +12497,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 34,
     "fields": {
       "collection": 4,
@@ -12517,7 +12517,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 35,
     "fields": {
       "collection": 4,
@@ -12537,7 +12537,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 36,
     "fields": {
       "collection": 4,
@@ -12557,7 +12557,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 37,
     "fields": {
       "collection": 4,
@@ -12577,7 +12577,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 39,
     "fields": {
       "collection": 4,
@@ -12597,7 +12597,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 40,
     "fields": {
       "collection": 4,
@@ -12617,7 +12617,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 41,
     "fields": {
       "collection": 3,
@@ -12637,7 +12637,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 42,
     "fields": {
       "collection": 3,
@@ -12657,7 +12657,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 43,
     "fields": {
       "collection": 3,
@@ -12677,7 +12677,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 44,
     "fields": {
       "collection": 1,
@@ -12697,7 +12697,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 45,
     "fields": {
       "collection": 1,
@@ -12717,7 +12717,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 46,
     "fields": {
       "collection": 1,
@@ -12737,7 +12737,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 47,
     "fields": {
       "collection": 1,
@@ -12757,7 +12757,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 48,
     "fields": {
       "collection": 1,
@@ -12777,7 +12777,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 49,
     "fields": {
       "collection": 1,
@@ -12797,7 +12797,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 51,
     "fields": {
       "collection": 3,
@@ -12817,7 +12817,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 52,
     "fields": {
       "collection": 3,
@@ -12837,7 +12837,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 53,
     "fields": {
       "collection": 3,
@@ -12857,7 +12857,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 54,
     "fields": {
       "collection": 5,
@@ -12877,7 +12877,7 @@
     }
   },
   {
-    "model": "wagtailimages.image",
+    "model": "images.CustomImage",
     "pk": 55,
     "fields": {
       "collection": 3,

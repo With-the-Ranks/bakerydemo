@@ -9,12 +9,10 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="blog__meta">
-                    {% if page.authors %}
+                    {% if page.author %}
                         <div class="blog__avatars">
-                            {% for author in page.authors %}
-                                <div class="blog__author">{% picture author.image format-{avif,webp,jpeg} fill-50x50-c100 class="blog__avatar" %}
-                                    {{ author.first_name }} {{ author.last_name }}</div>
-                            {% endfor %}
+                            <div class="blog__author">{% picture page.author.image format-{avif,webp,jpeg} fill-50x50-c100 class="blog__avatar" %}
+                                {{ page.author.first_name }} {{ page.author.last_name }}</div>
                         </div>
                     {% endif %}
                 </div>

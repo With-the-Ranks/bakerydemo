@@ -1,11 +1,13 @@
 from wagtail import hooks
 from wagtail.admin.filters import WagtailFilterSet
+from wagtail.admin.menu import MenuItem
 from wagtail.admin.userbar import AccessibilityItem
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
 from bakerydemo.base.filters import RevisionFilterSetMixin
 from bakerydemo.base.models import FooterText, Person
+from bakerydemo.blog.models import BlogPage
 
 """
 N.B. To see what icons are available for use in Wagtail menus and StreamField block types,
@@ -42,6 +44,16 @@ def replace_userbar_accessibility_item(request, items, page):
         CustomAccessibilityItem() if isinstance(item, AccessibilityItem) else item
         for item in items
     ]
+
+
+@hooks.register("register_admin_menu_item")
+def register_quick_link_menu_item():
+    return MenuItem(
+        "Blog",
+        "/admin/pages/61/",
+        icon_name="doc-full",
+        order=800,
+    )
 
 
 class PersonFilterSet(RevisionFilterSetMixin, WagtailFilterSet):

@@ -1,0 +1,18 @@
+{% extends "wagtailadmin/base.html" %}
+{% load wagtailadmin_tags %}
+
+{% block titletag %}Sign in{% endblock %}
+
+{% block bodyclass %}page-editor no-sidebar{% endblock %}
+
+{% block content %}
+  {% include "wagtailadmin/shared/header.html" with title="Sign in" icon="user" %}
+
+  <div class="nice-padding">
+    <p>Continue with Google to access the admin.</p>
+    <form method="post">
+      {% csrf_token %}
+      <button class="button button-primary" type="submit">Continue</button>
+    </form>
+  </div>
+{% endblock %}

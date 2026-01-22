@@ -1,15 +1,19 @@
 from django.contrib import messages
+from django.conf import settings
 from django.db import models
 from django.shortcuts import redirect, render
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import Tag, TaggedItemBase
-from wagtail.admin.panels import FieldPanel, MultipleChooserPanel
+from wagtail.admin.panels import FieldPanel
 from wagtail.api import APIField
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.fields import StreamField
+from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
 from wagtail.search import index
+from wagtail_ai.panels import AIDescriptionFieldPanel, AITitleFieldPanel
+from wagtailseo.models import SeoType, TwitterCard
 
 from bakerydemo.base.blocks import BaseStreamBlock
 
@@ -57,10 +61,11 @@ class BlogPage(Page):
     ParentalKey's related_name in BlogPersonRelationship. More docs:
     https://docs.wagtail.org/en/stable/topics/pages.html#inline-models
     """
-
+    from .forms import BlogPageForm
+    base_form_class = BlogPageForm
     introduction = models.TextField(help_text="Text to describe the page", blank=True)
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
@@ -73,22 +78,21 @@ class BlogPage(Page):
     subtitle = models.CharField(blank=True, max_length=255)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date_published = models.DateField("Date article published", blank=True, null=True)
-
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="blog_pages_authored",
+    )
     content_panels = Page.content_panels + [
-        FieldPanel("subtitle"),
-        FieldPanel("introduction"),
+        AITitleFieldPanel("subtitle"),
+        AIDescriptionFieldPanel("introduction"),
         FieldPanel("image"),
         FieldPanel("body"),
         FieldPanel("date_published"),
-        MultipleChooserPanel(
-            "blog_person_relationship",
-            chooser_field_name="person",
-            heading="Authors",
-            label="Author",
-            panels=None,
-            min_num=1,
-        ),
         FieldPanel("tags"),
+        FieldPanel("author")
     ]
 
     search_fields = Page.search_fields + [
@@ -105,21 +109,19 @@ class BlogPage(Page):
         APIField("blog_person_relationship"),
     ]
 
-    def authors(self):
-        """
-        Returns the BlogPage's related people. Again note that we are using
-        the ParentalKey's related_name from the BlogPersonRelationship model
-        to access these objects. This allows us to access the Person objects
-        with a loop on the template. If we tried to access the blog_person_
-        relationship directly we'd print `blog.BlogPersonRelationship.None`
-        """
-        # Only return authors that are not in draft
-        return [
-            n.person
-            for n in self.blog_person_relationship.filter(
-                person__live=True
-            ).select_related("person")
-        ]
+    # Indicate this is article-style content.
+    seo_content_type = SeoType.ARTICLE
+
+    # Change the Twitter card style.
+    seo_twitter_card = TwitterCard.LARGE
+
+    def save_revision(self, *args, **kwargs):
+        user = kwargs.get("user")
+        if user and user.is_authenticated and not self.author_id:
+            self.author = user
+
+        return super().save_revision(*args, **kwargs)
+    
 
     @property
     def get_tags(self):
@@ -154,7 +156,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
 
     introduction = models.TextField(help_text="Text to describe the page", blank=True)
     image = models.ForeignKey(
-        "wagtailimages.Image",
+        get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

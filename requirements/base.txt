@@ -6,3 +6,8 @@ django-debug-toolbar>=4.2,<5
 django-extensions==3.2.3
 django-csp==3.7
 dj-database-url==2.1.0
+wagtail-ai==3.0.0
+wagtail_ab_testing==0.12.0
+wagtail-2fa==1.7.1
+django-otp==1.6.3
+wagtail-seo==3.1.1
