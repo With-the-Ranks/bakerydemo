@@ -2,6 +2,7 @@ from django.utils.functional import cached_property
 from wagtail.blocks import (
     CharBlock,
     ChoiceBlock,
+    RawHTMLBlock,
     RichTextBlock,
     StreamBlock,
     StructBlock,
@@ -157,4 +158,10 @@ class BaseStreamBlock(StreamBlock):
         preview_template="base/preview/static_embed_block.html",
         preview_value="https://www.youtube.com/watch?v=mwrGSfiB1Mg",
         description="An embedded video or other media",
+    )
+    html_block = RawHTMLBlock(
+        help_text="Embed raw HTML on a page; use carefully!",
+        icon="code",
+        template="blocks/html_block.html",
+        description="Embedded raw HTML"
     )

@@ -500,11 +500,15 @@ class GalleryPage(Page):
 class MediaReleasePage(Page):
     """
     This is a page to handle publishing media releases.
-    
-    :var at: Description
-    :var https: Description
-    :var https: Description
     """
+
+    body = StreamField(
+        BaseStreamBlock(), verbose_name="Page body", blank=True, use_json_field=True
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel("body")
+    ]
 
 
 class FormField(AbstractFormField):

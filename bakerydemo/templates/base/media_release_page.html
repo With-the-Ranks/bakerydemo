@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% include "base/include/header-hero.html" %}
+
+    <div class="container bread-detail">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-7">
+                    <div class="row">
+                      {{ page.body }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
