@@ -75,7 +75,7 @@ class BlogPage(Page):
     body = StreamField(
         BaseStreamBlock(), verbose_name="Page body", blank=True, use_json_field=True
     )
-    subtitle = models.CharField(blank=True, max_length=255)
+    subtitle = models.CharField(blank=True, max_length=255, help_text="Subtitle for the page")
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date_published = models.DateField("Date article published", blank=True, null=True)
     author = models.ForeignKey(

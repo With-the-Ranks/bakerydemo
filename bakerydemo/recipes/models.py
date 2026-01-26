@@ -80,8 +80,7 @@ class RecipePage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("date_published"),
-        # Using `title` to make a field larger.
-        FieldPanel("subtitle", classname="title"),
+        FieldPanel("subtitle", classname="subtitle"),
         MultiFieldPanel(
             [
                 # Example use case for HelpPanel.
