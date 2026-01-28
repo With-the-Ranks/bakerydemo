@@ -14,9 +14,27 @@ SUPERUSER_EMAILS = _csv_set("GOOGLE_ADMIN_SUPERUSERS", "")
 DEFAULT_GROUP = os.getenv("GOOGLE_ADMIN_DEFAULT_GROUP", "Editors")
 
 
+def _get_email(sociallogin):
+    email = (sociallogin.user.email or "").strip().lower()
+    if email:
+        return email
+
+    extra = getattr(sociallogin.account, "extra_data", {}) or {}
+    email = (extra.get("email") or "").strip().lower()
+    if email:
+        return email
+
+    # last resort: email_addresses
+    for e in getattr(sociallogin, "email_addresses", []) or []:
+        if getattr(e, "email", None):
+            return e.email.strip().lower()
+
+    return ""
+
+
 class AdminGoogleAdapter(DefaultSocialAccountAdapter):
     def pre_social_login(self, request, sociallogin):
-        email = (sociallogin.user.email or "").strip().lower()
+        email = _get_email(sociallogin)
         if "@" not in email:
             raise PermissionDenied("Google did not provide an email address")
 

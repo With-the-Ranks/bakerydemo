@@ -318,3 +318,10 @@ SOCIALACCOUNT_ADAPTER = "bakerydemo.adapters.AdminGoogleAdapter"
 SOCIALACCOUNT_AUTO_SIGNUP = True
 WAGTAILIMAGES_IMAGE_MODEL = "images.CustomImage"
 WAGTAILIMAGES_RENDITION_MODEL = "images.CustomRendition"
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["email"],
+        "AUTH_PARAMS": {"prompt": "consent select_account"},
+    }
+}
