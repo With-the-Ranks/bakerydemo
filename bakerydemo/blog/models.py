@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import Tag, TaggedItemBase
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.api import APIField
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.fields import StreamField
@@ -85,14 +85,21 @@ class BlogPage(Page):
         on_delete=models.SET_NULL,
         related_name="blog_pages_authored",
     )
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         AITitleFieldPanel("subtitle"),
         AIDescriptionFieldPanel("introduction"),
         FieldPanel("image"),
         FieldPanel("body"),
         FieldPanel("date_published"),
         FieldPanel("tags"),
-        FieldPanel("author")
+        MultiFieldPanel(
+            [
+                FieldPanel("author"),
+            ],
+            heading="Author Information",
+            classname="collapsible collapsed",
+        ),
     ]
 
     search_fields = Page.search_fields + [
@@ -164,7 +171,8 @@ class BlogIndexPage(RoutablePageMixin, Page):
         help_text="Landscape mode only; horizontal width between 1000px and 3000px.",
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         FieldPanel("introduction"),
         FieldPanel("image"),
     ]

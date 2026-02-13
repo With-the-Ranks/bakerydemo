@@ -282,34 +282,31 @@ if "CSP_DEFAULT_SRC" in os.environ:
         CSP_REPORT_URI = os.environ.get("CSP_REPORT_URI")
 
 WAGTAIL_AI = {
-    "PROVIDERS": {
-        "default": {
-            "provider": "openai",
-            "model": "gpt-4.1-mini",
-        },
-        "vision": {
-            "provider": "mistral",
-            "model": "mistral-small-3.2-24b-instruct-2506",
-        },
-    },
-    # For legacy rich text editor integration
     "BACKENDS": {
         "gpt4": {
             "CLASS": "wagtail_ai.ai.openai.OpenAIBackend",
             "CONFIG": {
-                "MODEL_ID": "gpt-4",
+                "MODEL_ID": "gpt-4o",
+                "TOKEN_LIMIT": 4096,
             },
         },
         "default": {
             "CLASS": "wagtail_ai.ai.llm.LLMBackend",
             "CONFIG": {
-                # Model ID recognizable by the "LLM" library.
-                "MODEL_ID": "gpt-3.5-turbo",
+                "MODEL_ID": "gpt-4o",
+                "TOKEN_LIMIT": 4096,
             },
-        }
+        },
+        "vision": {
+            "CLASS": "wagtail_ai.ai.openai.OpenAIBackend",
+            "CONFIG": {
+                "MODEL_ID": "gpt-4o",
+                "TOKEN_LIMIT": 4096,
+            },
+        },
     },
     "TEXT_COMPLETION_BACKEND": "gpt4",
-    "IMAGE_DESCRIPTION_PROVIDER": "vision",  # Use vision model for images
+    "IMAGE_DESCRIPTION_BACKEND": "vision",
 }
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")

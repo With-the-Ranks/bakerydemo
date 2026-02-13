@@ -10,6 +10,7 @@ from wagtail.fields import StreamField
 from wagtail.images import get_image_model_string
 from wagtail.models import Orderable, Page
 from wagtail.search import index
+from wagtail_ai.panels import AITitleFieldPanel
 
 from bakerydemo.base.blocks import BaseStreamBlock
 from bakerydemo.locations.choices import DAY_CHOICES
@@ -106,7 +107,8 @@ class LocationsIndexPage(Page):
         )
         return context
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         FieldPanel("introduction"),
         FieldPanel("image"),
     ]
@@ -156,7 +158,7 @@ class LocationPage(Page):
 
     # Fields to show to the editor in the admin view
     content_panels = [
-        FieldPanel("title"),
+        AITitleFieldPanel("title"),
         FieldPanel("introduction"),
         FieldPanel("image"),
         FieldPanel("body"),

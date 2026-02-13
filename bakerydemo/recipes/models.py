@@ -10,6 +10,7 @@ from wagtail.api import APIField
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Orderable, Page
 from wagtail.search import index
+from wagtail_ai.panels import AITitleFieldPanel
 
 from bakerydemo.base.blocks import BaseStreamBlock
 
@@ -78,7 +79,8 @@ class RecipePage(Page):
         help_text="The recipe’s step-by-step instructions and any other relevant information.",
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         FieldPanel("date_published"),
         FieldPanel("subtitle", classname="subtitle"),
         MultiFieldPanel(
@@ -155,7 +157,8 @@ class RecipeIndexPage(Page):
 
     introduction = models.TextField(help_text="Text to describe the page", blank=True)
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         FieldPanel("introduction"),
     ]
 

@@ -248,7 +248,8 @@ class StandardPage(SeoMixin, Page):
     body = StreamField(
         BaseStreamBlock(), verbose_name="Page body", blank=True, use_json_field=True
     )
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         AITitleFieldPanel("introduction"),
         FieldPanel("body"),
         FieldPanel("image"),
@@ -378,7 +379,8 @@ class HomePage(Page):
         verbose_name="Featured section 3",
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         MultiFieldPanel(
             [
                 FieldPanel("image"),
@@ -478,7 +480,8 @@ class GalleryPage(Page):
         help_text="Select the image collection for this gallery.",
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         AITitleFieldPanel("introduction"),
         FieldPanel("body"),
         FieldPanel("image"),
@@ -506,7 +509,8 @@ class MediaReleasePage(Page):
         BaseStreamBlock(), verbose_name="Page body", blank=True, use_json_field=True
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         FieldPanel("body")
     ]
 
@@ -537,7 +541,8 @@ class FormPage(AbstractEmailForm):
 
     # Note how we include the FormField object via an InlinePanel using the
     # related_name value
-    content_panels = AbstractEmailForm.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         FormSubmissionsPanel(),
         FieldPanel("image"),
         FieldPanel("body"),

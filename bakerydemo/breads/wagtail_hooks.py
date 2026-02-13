@@ -59,15 +59,8 @@ class CountryModelViewSet(ModelViewSet):
 #
 # See the documentation for SnippetViewSet for more details.
 # https://docs.wagtail.org/en/stable/reference/viewsets.html#snippetviewsetgroup
-class BreadMenuGroup(SnippetViewSetGroup):
-    menu_label = "Bread Categories"
-    menu_icon = "suitcase"  # change as required
-    menu_order = 200  # will put in 3rd place (000 being 1st, 100 2nd)
-    items = (
-        BreadIngredientSnippetViewSet,
-        BreadTypeSnippetViewSet,
-        CountryModelViewSet,
-    )
 
-
-register_snippet(BreadMenuGroup)
+# Register the snippet viewsets
+register_snippet(BreadIngredientSnippetViewSet)
+register_snippet(BreadTypeSnippetViewSet)
+register_snippet(CountryModelViewSet)

@@ -11,6 +11,7 @@ class BlogPageForm(WagtailAdminPageForm):
         required=False,
         label="Author",
         widget=forms.Select,  # force a simple dropdown
+        help_text="This is an optional field; the author is set to the user who creates the page by default, but can be set to any other user if necessary.",
     )
 
     def __init__(self, *args, **kwargs):

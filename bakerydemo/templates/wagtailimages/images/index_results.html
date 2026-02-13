@@ -24,8 +24,8 @@ hiii
                                 {% include "wagtailimages/images/results_image.html" %}
                                 <figcaption id="{{ title_id }}">
                                     <p>{{ image.title|ellipsistrim:60 }}</p>
-                                    {% if image.description %}
-                                    <p>{{ image.description|ellipsistrim:60 }}</p>
+                                    {% if image.credit %}
+                                    <p>{{ image.credit|ellipsistrim:60 }}</p>
                                     {% endif %}
                                 </figcaption>
                             </figure>

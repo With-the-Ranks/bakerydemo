@@ -25,8 +25,8 @@
                         <a data-chooser-modal-choice class="image-choice" title="{% if collections %}{{ image.collection.name }} » {% endif %}{{ image.title }}" href="{{ image.chosen_url }}">
                             <div class="image">{% image image max-165x165 class="show-transparency" %}</div>
                             <h3>{{ image.title|ellipsistrim:60 }}</h3>
-                            {% if image.description %}
-                            <h4>{{ image.description|ellipsistrim:60 }}</h4>
+                            {% if image.credit %}
+                            <h4>{{ image.credit|ellipsistrim:60 }}</h4>
                             {% endif %}
                         </a>
                     {% endif %}

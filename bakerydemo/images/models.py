@@ -4,6 +4,7 @@ from wagtail.images.models import Image, AbstractImage, AbstractRendition
 
 
 class CustomImage(AbstractImage):
+    credit = models.CharField(max_length=255, blank=True)
     description = models.TextField(
         blank=True,
         help_text="Editorial description or notes about the image",
@@ -11,6 +12,7 @@ class CustomImage(AbstractImage):
 
     admin_form_fields = Image.admin_form_fields + (
         "description",
+        "credit",
     )
 
 

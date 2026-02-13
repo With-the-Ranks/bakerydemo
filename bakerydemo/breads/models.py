@@ -160,7 +160,8 @@ class BreadPage(Page):
     )
     ingredients = ParentalManyToManyField("BreadIngredient", blank=True)
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         AIDescriptionFieldPanel("introduction"),
         FieldPanel("image"),
         FieldPanel("body"),
@@ -218,7 +219,8 @@ class BreadsIndexPage(Page):
         help_text="Landscape mode only; horizontal width between 1000px and 3000px.",
     )
 
-    content_panels = Page.content_panels + [
+    content_panels = [
+        AITitleFieldPanel("title"),
         AIDescriptionFieldPanel("introduction"),
         FieldPanel("image"),
     ]

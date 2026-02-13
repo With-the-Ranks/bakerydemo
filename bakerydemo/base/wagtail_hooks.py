@@ -94,13 +94,6 @@ class FooterTextViewSet(SnippetViewSet):
     filterset_class = FooterTextFilterSet
 
 
-class BakerySnippetViewSetGroup(SnippetViewSetGroup):
-    menu_label = "Bakery Misc"
-    menu_icon = "utensils"  # change as required
-    menu_order = 300  # will put in 4th place (000 being 1st, 100 2nd)
-    items = (PersonViewSet, FooterTextViewSet)
-
-
-# When using a SnippetViewSetGroup class to group several SnippetViewSet classes together,
-# you only need to register the SnippetViewSetGroup class with Wagtail:
-register_snippet(BakerySnippetViewSetGroup)
+# Register the snippet viewsets
+register_snippet(PersonViewSet)
+register_snippet(FooterTextViewSet)
