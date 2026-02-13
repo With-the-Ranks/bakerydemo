@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     "bakerydemo.images",
     "wagtail.images",
     "wagtail.search",
+    "wagtail_modeladmin",  # Standalone package required by wagtail-personalisation
+    "wagtail_personalisation",
     "wagtail.admin",
     "wagtail.api.v2",
     "wagtail.locales",
