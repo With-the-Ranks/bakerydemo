@@ -1,4 +1,5 @@
 import debug_toolbar
+import os
 from django.conf import settings
 from django.contrib import admin
 from django.views.generic import RedirectView
@@ -61,8 +62,15 @@ if settings.DEBUG:
         path("test500/", TemplateView.as_view(template_name="500.html")),
     ]
 
+
 urlpatterns += i18n_patterns(
     path("search/", search_views.search, name="search"),
     path("", include(wagtail_urls)),
     prefix_default_language=False,
 )
+
+# Serve media files in production if cloud storage is not configured
+# This is needed for Render deployments without S3/GCS
+if not settings.DEBUG and "AWS_STORAGE_BUCKET_NAME" not in os.environ and "GS_BUCKET_NAME" not in os.environ:
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
