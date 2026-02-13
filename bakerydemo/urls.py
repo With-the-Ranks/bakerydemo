@@ -72,5 +72,7 @@ urlpatterns += i18n_patterns(
 # Serve media files in production if cloud storage is not configured
 # This is needed for Render deployments without S3/GCS
 if not settings.DEBUG and "AWS_STORAGE_BUCKET_NAME" not in os.environ and "GS_BUCKET_NAME" not in os.environ:
-    from django.conf.urls.static import static
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    from django.views.static import serve
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
