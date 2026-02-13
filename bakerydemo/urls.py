@@ -63,12 +63,6 @@ if settings.DEBUG:
     ]
 
 
-urlpatterns += i18n_patterns(
-    path("search/", search_views.search, name="search"),
-    path("", include(wagtail_urls)),
-    prefix_default_language=False,
-)
-
 # Serve media files in production if cloud storage is not configured
 # This is needed for Render deployments without S3/GCS
 if not settings.DEBUG and "AWS_STORAGE_BUCKET_NAME" not in os.environ and "GS_BUCKET_NAME" not in os.environ:
@@ -76,3 +70,9 @@ if not settings.DEBUG and "AWS_STORAGE_BUCKET_NAME" not in os.environ and "GS_BU
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     ]
+
+urlpatterns += i18n_patterns(
+    path("search/", search_views.search, name="search"),
+    path("", include(wagtail_urls)),
+    prefix_default_language=False,
+)
